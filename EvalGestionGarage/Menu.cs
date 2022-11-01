@@ -152,6 +152,7 @@ namespace EvalGestionGarage
             Console.WriteLine("2. Camion");
             Console.WriteLine("3. Moto");
             int userVehicleTypeChoice = GetUserChoiceMenu(1, 3);
+            Brands chosenBrand = (Brands)userVehicleTypeChoice;
 
             Console.Clear();
             Console.WriteLine("Entrez son nom : ");
@@ -168,8 +169,11 @@ namespace EvalGestionGarage
 
             Console.Clear();
             Console.WriteLine("Choisissez un moteur parmis ceux disponibles ci dessous :");
-            DisplayEngines();
-            Engine vehicleEngine = garage.AvalaibleEngines[GetUserChoiceMenu(1, garage.AvalaibleEngines.Count) - 1];
+            Engine vehicleEngine = null;
+            if (DisplayEngines())
+            {
+                vehicleEngine = garage.AvalaibleEngines[GetUserChoiceMenu(1, garage.AvalaibleEngines.Count) - 1];
+            }
 
             Console.Clear();
             bool choosingOption = true;
@@ -177,19 +181,51 @@ namespace EvalGestionGarage
             while (choosingOption)
             {
                 Console.WriteLine("Choisissez une options parmis celles disponibles ci dessous :");
-                DisplayOptions();
-                choosenOptions.Add(garage.AvalaibleOptions[GetUserChoiceMenu(1, garage.AvalaibleOptions.Count) - 1]);
+                if (DisplayOptions())
+                {
+                    choosenOptions.Add(garage.AvalaibleOptions[GetUserChoiceMenu(1, garage.AvalaibleOptions.Count) - 1]);
+                } else
+                {
+                    break;
+                }
                 Console.WriteLine("Voulez vous ajouter une autre option a votre véhicule ? :");
                 Console.WriteLine("1. Oui");
                 Console.WriteLine("2. Non");
                 int userContinueChoice = GetUserChoiceMenu(1, 2);
-                if (userContinueChoice == 1)
+                if (userContinueChoice == 2)
                 {
-                    break;
-                } else if (userContinueChoice == 2)
-                {
-                    break;
+                    choosingOption = false;
                 }
+            }
+
+            if (userVehicleTypeChoice == 1)
+            {
+                Console.Clear();
+                Console.WriteLine("Entrez ses chevaux fiscaux : ");
+                int carFiscalHp = GetUserChoice();
+
+                Console.Clear();
+                Console.WriteLine("Entrez son nombre de portes : ");
+                int carDoorNbr = GetUserChoice();
+
+                Console.Clear();
+                Console.WriteLine("Entrez son nombre de sièges : ");
+                int carSeatNbr = GetUserChoice();
+
+                Console.Clear();
+                Console.WriteLine("Entrez le volume de son coffre : ");
+                int carBootVolume = GetUserChoice();
+
+                Car newCar = new Car(vehicleName, vehicleDfPrice, chosenBrand, vehicleEngine, carFiscalHp, carDoorNbr, carSeatNbr, carBootVolume);
+                foreach (Option option in choosenOptions)
+                {
+                    newCar.AddOption(option);
+                }
+
+                garage.AddVehicle(newCar);
+
+                Console.WriteLine("La voiture a bien été ajoutée au garage, appuyer sur n'importe quelle touche pour continuer : ");
+                Console.ReadKey();
             }
         }
 
@@ -198,33 +234,56 @@ namespace EvalGestionGarage
             int i = 1;
             foreach (string brand in Enum.GetNames(typeof(Brands)))
             {
-                Console.WriteLine("{0}. {1}", i, brand);
-                i++;
+                if (brand != null)
+                {
+                    Console.WriteLine("{0}. {1}", i, brand);
+                    i++;
+                }
             }
         }
 
-        public void DisplayEngines()
+        public bool DisplayEngines()
         {
             int i = 1;
             foreach (Engine engine in garage.AvalaibleEngines)
             {
-                Console.WriteLine("--{0}--", i);
-                engine.Display();
-                Console.WriteLine("");
-                i++;
+                if (engine != null)
+                {
+                    Console.WriteLine("--{0}--", i);
+                    engine.Display();
+                    Console.WriteLine("");
+                    i++;
+                } else
+                {
+                    Console.WriteLine("Il n'y a pas de moteurs disponibles pour le moments.");
+                    Console.WriteLine("Appuyer sur n'importe quelle touche pour continuer.");
+                    Console.ReadKey();
+                    return false;
+                }
             }
+            return true;
         }
 
-        public void DisplayOptions()
+        public bool DisplayOptions()
         {
             int i = 1;
             foreach (Option option in garage.AvalaibleOptions)
             {
-                Console.WriteLine("--{0}--", i);
-                option.Display();
-                Console.WriteLine("");
-                i++;
+                if (option != null)
+                {
+                    Console.WriteLine("--{0}--", i);
+                    option.Display();
+                    Console.WriteLine("");
+                    i++;
+                } else
+                {
+                    Console.WriteLine("Il n'y a pas d'options disponibles pour le moments.");
+                    Console.WriteLine("Appuyer sur n'importe quelle touche pour continuer.");
+                    Console.ReadKey();
+                    return false;
+                }
             }
+            return true;
         }
     }
 }
