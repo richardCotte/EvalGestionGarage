@@ -29,6 +29,8 @@ namespace EvalGestionGarage
 
         public void Start()
         {
+            bool isVehicleSelected = false;
+            Vehicle selectedVehicle = null;
             bool usingApp = true;
             while (usingApp)
             {
@@ -54,6 +56,11 @@ namespace EvalGestionGarage
                 Console.WriteLine("13. Quitter");
                 Console.WriteLine("");
 
+                if (selectedVehicle != null)
+                {
+                    isVehicleSelected = true;
+                }
+
                 try
                 {
                     int userChoice = GetUserChoiceMenu(1, 13);
@@ -63,10 +70,15 @@ namespace EvalGestionGarage
                             DisplayVehicle();
                             break;
                         case 2:
+                            AddVehicles();
                             break;
                         case 3:
+                            DeleteVehicle();
+                            selectedVehicle = null;
+                            isVehicleSelected = false;
                             break;
                         case 4:
+                            selectedVehicle = SelectVehicle();
                             break;
                         case 5:
                             break;
@@ -101,7 +113,7 @@ namespace EvalGestionGarage
 
         public int GetUserChoice()
         {
-            int userChoice = 0;
+            int userChoice;
             try
             {
                 userChoice = Convert.ToInt32(Console.ReadLine());
@@ -115,7 +127,7 @@ namespace EvalGestionGarage
 
         public decimal GetUserDecimalChoice()
         {
-            decimal userChoice = 0;
+            decimal userChoice;
             try
             {
                 userChoice = Convert.ToDecimal(Console.ReadLine());
@@ -152,7 +164,6 @@ namespace EvalGestionGarage
             Console.WriteLine("2. Camion");
             Console.WriteLine("3. Moto");
             int userVehicleTypeChoice = GetUserChoiceMenu(1, 3);
-            Brands chosenBrand = (Brands)userVehicleTypeChoice;
 
             Console.Clear();
             Console.WriteLine("Entrez son nom : ");
@@ -166,6 +177,7 @@ namespace EvalGestionGarage
             Console.WriteLine("Choisissez sa marque parmis celles ci dessous :");
             DisplayBrands();
             int userBrandChoiceNbr = GetUserChoiceMenu(1, 5);
+            Brands chosenBrand = (Brands)userBrandChoiceNbr;
 
             Console.Clear();
             Console.WriteLine("Choisissez un moteur parmis ceux disponibles ci dessous :");
@@ -198,35 +210,99 @@ namespace EvalGestionGarage
                 }
             }
 
-            if (userVehicleTypeChoice == 1)
+            switch (userVehicleTypeChoice)
             {
-                Console.Clear();
-                Console.WriteLine("Entrez ses chevaux fiscaux : ");
-                int carFiscalHp = GetUserChoice();
+                case 1:
+                    Console.Clear();
+                    Console.WriteLine("Entrez ses chevaux fiscaux : ");
+                    int carFiscalHp = GetUserChoice();
 
-                Console.Clear();
-                Console.WriteLine("Entrez son nombre de portes : ");
-                int carDoorNbr = GetUserChoice();
+                    Console.Clear();
+                    Console.WriteLine("Entrez son nombre de portes : ");
+                    int carDoorNbr = GetUserChoice();
 
-                Console.Clear();
-                Console.WriteLine("Entrez son nombre de sièges : ");
-                int carSeatNbr = GetUserChoice();
+                    Console.Clear();
+                    Console.WriteLine("Entrez son nombre de sièges : ");
+                    int carSeatNbr = GetUserChoice();
 
-                Console.Clear();
-                Console.WriteLine("Entrez le volume de son coffre : ");
-                int carBootVolume = GetUserChoice();
+                    Console.Clear();
+                    Console.WriteLine("Entrez le volume de son coffre : ");
+                    int carBootVolume = GetUserChoice();
 
-                Car newCar = new Car(vehicleName, vehicleDfPrice, chosenBrand, vehicleEngine, carFiscalHp, carDoorNbr, carSeatNbr, carBootVolume);
-                foreach (Option option in choosenOptions)
-                {
-                    newCar.AddOption(option);
-                }
+                    Car newCar = new Car(vehicleName, vehicleDfPrice, chosenBrand, vehicleEngine, carFiscalHp, carDoorNbr, carSeatNbr, carBootVolume);
+                    foreach (Option option in choosenOptions)
+                    {
+                        newCar.AddOption(option);
+                    }
 
-                garage.AddVehicle(newCar);
+                    garage.AddVehicle(newCar);
 
-                Console.WriteLine("La voiture a bien été ajoutée au garage, appuyer sur n'importe quelle touche pour continuer : ");
-                Console.ReadKey();
+                    Console.WriteLine("La voiture a bien été ajoutée au garage, appuyer sur n'importe quelle touche pour continuer : ");
+                    Console.ReadKey();
+                    break;
+
+                case 2:
+                    Console.Clear();
+                    Console.WriteLine("Entrez son nombre d'essieu : ");
+                    int truckAxleNumbre = GetUserChoice();
+
+                    Console.Clear();
+                    Console.WriteLine("Entrez son poids : ");
+                    int truckWeight = GetUserChoice();
+
+                    Console.Clear();
+                    Console.WriteLine("Entrez son volume : ");
+                    int truckVolume = GetUserChoice();
+
+                    Truck newTruck = new Truck(vehicleName, vehicleDfPrice, chosenBrand, vehicleEngine, truckAxleNumbre, truckWeight, truckVolume);
+                    foreach (Option option in choosenOptions)
+                    {
+                        newTruck.AddOption(option);
+                    }
+
+                    garage.AddVehicle(newTruck);
+
+                    Console.WriteLine("Le camion a bien été ajouté au garage, appuyer sur n'importe quelle touche pour continuer : ");
+                    Console.ReadKey();
+                    break;
+
+                case 3:
+                    Console.Clear();
+                    Console.WriteLine("Entrez son cylindré : ");
+                    int motorcycleCylinder = GetUserChoice();
+
+                    Motorcycle newMotorcycle = new Motorcycle(vehicleName, vehicleDfPrice, chosenBrand, vehicleEngine, motorcycleCylinder);
+                    foreach (Option option in choosenOptions)
+                    {
+                        newMotorcycle.AddOption(option);
+                    }
+
+                    garage.AddVehicle(newMotorcycle);
+
+                    Console.WriteLine("La moto a bien été ajoutée au garage, appuyer sur n'importe quelle touche pour continuer : ");
+                    Console.ReadKey();
+                    break;
             }
+        }
+
+        public void DeleteVehicle()
+        {
+            Console.Clear();
+            Console.WriteLine("Choisissez un véhicule à supprimer parmis la liste de véhicules ci-dessous en tapant le chiffre correspondant (celui entre les tirets) : ");
+            garage.DisplayAllVehicles();
+            int deletedVehicleChoice = GetUserChoiceMenu(0, garage.Vehicles.Count);
+            garage.DeleteVehicleFromList(deletedVehicleChoice);
+            Console.WriteLine("Le véhicule a bien été supprimé du garage, appuyer sur n'importe quelle touche pour continuer : ");
+            Console.ReadKey();
+        }
+
+        public Vehicle SelectVehicle()
+        {
+            Console.Clear();
+            Console.WriteLine("Choisissez un véhicule sur lequel vous souhaitez réalisé des opérations parmis la liste de véhicules ci-dessous en tapant le chiffre correspondant (celui entre les tirets) : ");
+            garage.DisplayAllVehicles();
+            int selectedVehicleChoice = GetUserChoiceMenu(0, garage.Vehicles.Count);
+            return garage.Vehicles[selectedVehicleChoice];
         }
 
         public void DisplayBrands()

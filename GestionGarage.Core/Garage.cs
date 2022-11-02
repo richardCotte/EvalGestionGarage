@@ -35,10 +35,11 @@ namespace GestionGarage.Core
 
         public void DisplayAllVehicles()
         {
+            int i = 0;
             Console.WriteLine("Voici la liste de tout les véhicules :");
             foreach (Vehicle vehicle in vehicles)
             {
-                Console.WriteLine("");
+                Console.WriteLine("------- {0} -------", i++);
                 Console.WriteLine("Véhicule : {0} {1}", vehicle.Brand, vehicle.Name);
                 Console.WriteLine("Id : {0}", vehicle.Id);
                 Console.WriteLine("");
@@ -47,12 +48,13 @@ namespace GestionGarage.Core
 
         public void DisplayCars()
         {
+            int i = 0;
             Console.WriteLine("Voici la liste de toutes les voitures :");
             foreach (Vehicle vehicle in vehicles)
             {
                 if (vehicle is Car)
                 {
-                    Console.WriteLine("");
+                    Console.WriteLine("------- {0} -------", i++);
                     Console.WriteLine("Voiture : {0} {1}", vehicle.Brand, vehicle.Name);
                     Console.WriteLine("Id : {0}", vehicle.Id);
                     Console.WriteLine("");
@@ -62,12 +64,13 @@ namespace GestionGarage.Core
 
         public void DisplayMotorcycles()
         {
+            int i = 0;
             Console.WriteLine("Voici la liste de toutes les motos :");
             foreach (Vehicle vehicle in vehicles)
             {
                 if (vehicle is Car)
                 {
-                    Console.WriteLine("");
+                    Console.WriteLine("------- {0} -------", i++);
                     Console.WriteLine("Moto : {0} {1}", vehicle.Brand, vehicle.Name);
                     Console.WriteLine("Id : {0}", vehicle.Id);
                     Console.WriteLine("");
@@ -77,12 +80,13 @@ namespace GestionGarage.Core
 
         public void DisplayTrucks()
         {
+            int i = 0;
             Console.WriteLine("Voici la liste de tous les camions :");
             foreach (Vehicle vehicle in vehicles)
             {
                 if (vehicle is Car)
                 {
-                    Console.WriteLine("");
+                    Console.WriteLine("------- {0} -------", i++);
                     Console.WriteLine("Camion : {0} {1}", vehicle.Brand, vehicle.Name);
                     Console.WriteLine("Id : {0}", vehicle.Id);
                     Console.WriteLine("");
@@ -103,6 +107,17 @@ namespace GestionGarage.Core
         public void AddEngine(Engine engine)
         {
             avalaibleEngines.Add(engine);
+        }
+
+        public void DeleteVehicleFromList(int vehicleIndex)
+        {
+            try
+            {
+                vehicles.RemoveAt(vehicleIndex);
+            } catch (Exception e)
+            {
+                throw new Exception("Aucun véhicule dans la liste à l'index donné", e);
+            }
         }
     }
 }

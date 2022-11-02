@@ -49,9 +49,11 @@ namespace GestionGarage.Core
 
         public void DisplayOptions()
         {
+            int i = 0;
             Console.WriteLine("Informations sur les options du véhicule : {0}", Name);
             foreach (Option option in options)
             {
+                Console.WriteLine("------- {0} -------", i++);
                 option.Display();
             }
         }
