@@ -293,6 +293,7 @@ namespace EvalGestionGarage
             int deletedVehicleChoice = GetUserChoiceMenu(0, garage.Vehicles.Count);
             garage.DeleteVehicleFromList(deletedVehicleChoice);
             Console.WriteLine("Le véhicule a bien été supprimé du garage, appuyer sur n'importe quelle touche pour continuer : ");
+            Console.WriteLine("(Pensez également à reséléctionner un véhicule si besoin)");
             Console.ReadKey();
         }
 
