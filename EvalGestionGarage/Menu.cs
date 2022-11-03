@@ -29,7 +29,6 @@ namespace EvalGestionGarage
 
         public void Start()
         {
-            bool isVehicleSelected = false;
             Vehicle selectedVehicle = null;
             bool usingApp = true;
             while (usingApp)
@@ -47,18 +46,21 @@ namespace EvalGestionGarage
                 Console.WriteLine("4. Sélectionner un véhicule");
                 Console.WriteLine("5. Afficher les options d'un véhicule");
                 Console.WriteLine("6. Ajouter des options à un véhicule");
-                Console.WriteLine("6. Supprimer des options à un véhicule");
-                Console.WriteLine("6. Afficher les options");
-                Console.WriteLine("6. Afficher les marques");
-                Console.WriteLine("6. Afficher les types de moteurs");
-                Console.WriteLine("6. Charger le garage");
-                Console.WriteLine("6. Sauvegarder le garage");
+                Console.WriteLine("7. Supprimer des options à un véhicule");
+                Console.WriteLine("8. Afficher les options");
+                Console.WriteLine("9. Afficher les marques");
+                Console.WriteLine("10. Afficher les types de moteurs");
+                Console.WriteLine("11. Charger le garage");
+                Console.WriteLine("12. Sauvegarder le garage");
                 Console.WriteLine("13. Quitter");
                 Console.WriteLine("");
 
                 if (selectedVehicle != null)
                 {
-                    isVehicleSelected = true;
+                    Console.WriteLine("");
+                    Console.WriteLine("Un véhicule est actuellement séléctioné : ");
+                    Console.WriteLine("{0} {1}", selectedVehicle.Brand, selectedVehicle.Name);
+                    Console.WriteLine("");
                 }
 
                 try
@@ -75,14 +77,28 @@ namespace EvalGestionGarage
                         case 3:
                             DeleteVehicle();
                             selectedVehicle = null;
-                            isVehicleSelected = false;
                             break;
                         case 4:
                             selectedVehicle = SelectVehicle();
                             break;
                         case 5:
+                            if (selectedVehicle != null)
+                            {
+                                DisplaySelectedVehicle(selectedVehicle);
+                            } else
+                            {
+                                NoSelectedVehicleError();
+                            }
                             break;
                         case 6:
+                            if (selectedVehicle != null)
+                            {
+                                AddOptionToSelectedVehicle(selectedVehicle);
+                            }
+                            else
+                            {
+                                NoSelectedVehicleError();
+                            }
                             break;
                         case 7:
                             break;
@@ -306,6 +322,37 @@ namespace EvalGestionGarage
             return garage.Vehicles[selectedVehicleChoice];
         }
 
+        public void DisplaySelectedVehicle(Vehicle selectedVehicle)
+        {
+            Console.Clear();
+            Console.WriteLine("Informations du véhicule séléctionné : ");
+            selectedVehicle.DisplayAll();
+            Console.WriteLine("Appuyez sur n'importe quelle touche pour revenir au menu");
+            Console.ReadKey();
+        }
+
+        public void AddOptionToSelectedVehicle(Vehicle selectedVehicle)
+        {
+            Console.Clear();
+            int choosenOption;
+            if (DisplayOptions())
+            {
+                Console.WriteLine("Choisissez une option parmis la liste ci dessus : ");
+                choosenOption = GetUserChoiceMenu(0, garage.AvalaibleOptions.Count);
+                selectedVehicle.AddOption(garage.AvalaibleOptions[choosenOption]);
+                Console.WriteLine("L'option choisie à correctement été ajoutée au véhicule séléctionné");
+                Console.WriteLine("Appuyez sur n'importe quelle touche pour revenir au menu");
+                Console.ReadKey();
+            }
+        }
+
+        public void NoSelectedVehicleError()
+        {
+            Console.Clear();
+            Console.WriteLine("Veuillez d'abord séléctionner un véhicule (fonction 4 du menu)");
+            Console.ReadKey();
+        }
+
         public void DisplayBrands()
         {
             int i = 1;
@@ -321,15 +368,14 @@ namespace EvalGestionGarage
 
         public bool DisplayEngines()
         {
-            int i = 1;
+            int i = 0;
             foreach (Engine engine in garage.AvalaibleEngines)
             {
                 if (engine != null)
                 {
-                    Console.WriteLine("--{0}--", i);
+                    Console.WriteLine("------- {0} -------", i++);
                     engine.Display();
                     Console.WriteLine("");
-                    i++;
                 } else
                 {
                     Console.WriteLine("Il n'y a pas de moteurs disponibles pour le moments.");
@@ -343,15 +389,14 @@ namespace EvalGestionGarage
 
         public bool DisplayOptions()
         {
-            int i = 1;
+            int i = 0;
             foreach (Option option in garage.AvalaibleOptions)
             {
                 if (option != null)
                 {
-                    Console.WriteLine("--{0}--", i);
+                    Console.WriteLine("------- {0} -------", i++);
                     option.Display();
                     Console.WriteLine("");
-                    i++;
                 } else
                 {
                     Console.WriteLine("Il n'y a pas d'options disponibles pour le moments.");
