@@ -26,25 +26,7 @@ namespace EvalGestionGarage
             {
                 Console.Clear();
 
-                Console.WriteLine("Bienvenue dans le menu de l'application console de garage.");
-                Console.WriteLine("");
-                Console.WriteLine("**********************************************************");
-                Console.WriteLine("");
-                Console.WriteLine("Veuillez choisir une action parmis celles ci dessous :");
-                Console.WriteLine("1. Afficher les véhicules");
-                Console.WriteLine("2. Ajouter un véhicule");
-                Console.WriteLine("3. Supprimer un véhicule");
-                Console.WriteLine("4. Sélectionner un véhicule");
-                Console.WriteLine("5. Afficher les options d'un véhicule");
-                Console.WriteLine("6. Ajouter des options à un véhicule");
-                Console.WriteLine("7. Supprimer des options à un véhicule");
-                Console.WriteLine("8. Afficher les options");
-                Console.WriteLine("9. Afficher les marques");
-                Console.WriteLine("10. Afficher les types de moteurs");
-                Console.WriteLine("11. Charger le garage");
-                Console.WriteLine("12. Sauvegarder le garage");
-                Console.WriteLine("13. Quitter");
-                Console.WriteLine("");
+                DisplayMenuUi();
 
                 if (selectedVehicle != null)
                 {
@@ -467,6 +449,29 @@ namespace EvalGestionGarage
                 Console.WriteLine("Appuyez sur n'importe quelle touche pour revenir au menu");
                 Console.ReadKey();
             }
+        }
+
+        public void DisplayMenuUi()
+        {
+            Console.WriteLine("Bienvenue dans le menu de l'application console de garage.");
+            Console.WriteLine("");
+            Console.WriteLine("**********************************************************");
+            Console.WriteLine("");
+            Console.WriteLine("Veuillez choisir une action parmis celles ci dessous :");
+            Console.WriteLine("1. Afficher les véhicules");
+            Console.WriteLine("2. Ajouter un véhicule");
+            Console.WriteLine("3. Supprimer un véhicule");
+            Console.WriteLine("4. Sélectionner un véhicule");
+            Console.WriteLine("5. Afficher les options d'un véhicule");
+            Console.WriteLine("6. Ajouter des options à un véhicule");
+            Console.WriteLine("7. Supprimer des options à un véhicule");
+            Console.WriteLine("8. Afficher les options");
+            Console.WriteLine("9. Afficher les marques");
+            Console.WriteLine("10. Afficher les types de moteurs");
+            Console.WriteLine("11. Charger le garage");
+            Console.WriteLine("12. Sauvegarder le garage");
+            Console.WriteLine("13. Quitter");
+            Console.WriteLine("");
         }
     }
 }

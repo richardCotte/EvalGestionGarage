@@ -47,6 +47,7 @@ namespace GestionGarage.Core
             this.engine = engine;
         }
 
+        /*Display all vehicle options*/
         public bool DisplayOptions()
         {
             int i = 0;
@@ -67,6 +68,7 @@ namespace GestionGarage.Core
             return true;
         }
 
+        /*Display all vehicle informations*/
         public virtual void DisplayAll()
         {
             Console.WriteLine("Id : {0}", Id);
