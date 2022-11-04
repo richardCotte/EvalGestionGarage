@@ -24,7 +24,7 @@ namespace GestionGarage.Core
         private decimal dfPrice;
         private Brands brand;
         private Engine engine;
-        private List<Option> options;
+        private List<Option> options = new List<Option>();
 
         public int Id { get { return id; } }
         public string Name { get => name; set => name = value; }
@@ -47,15 +47,24 @@ namespace GestionGarage.Core
             this.engine = engine;
         }
 
-        public void DisplayOptions()
+        public bool DisplayOptions()
         {
             int i = 0;
             Console.WriteLine("Informations sur les options du véhicule : {0}", Name);
-            foreach (Option option in options)
+            if (Options.Count != 0)
             {
-                Console.WriteLine("------- {0} -------", i++);
-                option.Display();
+                foreach (Option option in Options)
+                {
+                    Console.WriteLine("------- {0} -------", i++);
+                    option.Display();
+                }
+            } else
+            {
+                Console.WriteLine("Ce véhicule n'a aucune options");
+                Console.ReadKey();
+                return false;
             }
+            return true;
         }
 
         public virtual void DisplayAll()
@@ -70,7 +79,12 @@ namespace GestionGarage.Core
 
         public void AddOption(Option option)
         {
-            options.Add(option);
+            Options.Add(option);
+        }
+
+        public void DeleteOption(Option option)
+        {
+            Options.Remove(option);
         }
 
         public abstract decimal CalculateTaxes();
@@ -79,7 +93,7 @@ namespace GestionGarage.Core
         {
             decimal vehiclePriceIncludingTaxes = DfPrice + CalculateTaxes();
             decimal optionsPrice = 0;
-            foreach (Option option in options)
+            foreach (Option option in Options)
             {
                 optionsPrice += option.Price;
             }

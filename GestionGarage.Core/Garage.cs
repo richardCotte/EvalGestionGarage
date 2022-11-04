@@ -9,9 +9,9 @@ namespace GestionGarage.Core
     public class Garage
     {
         private string garageName;
-        private List<Vehicle> vehicles;
-        private List<Engine> avalaibleEngines;
-        private List<Option> avalaibleOptions;
+        private List<Vehicle> vehicles = new List<Vehicle>();
+        private List<Engine> avalaibleEngines = new List<Engine>();
+        private List<Option> avalaibleOptions = new List<Option>();
 
         public string GarageName { get => garageName; set => garageName = value; }
         public List<Vehicle> Vehicles { get { return vehicles; } }
@@ -30,67 +30,109 @@ namespace GestionGarage.Core
 
         public void AddVehicle(Vehicle vehicle)
         {
-            vehicles.Add(vehicle);
+            Vehicles.Add(vehicle);
         }
 
         public void DisplayAllVehicles()
         {
             int i = 0;
             Console.WriteLine("Voici la liste de tout les véhicules :");
-            foreach (Vehicle vehicle in vehicles)
+            if (Vehicles.Count != 0)
             {
-                Console.WriteLine("------- {0} -------", i++);
-                Console.WriteLine("Véhicule : {0} {1}", vehicle.Brand, vehicle.Name);
-                Console.WriteLine("Id : {0}", vehicle.Id);
-                Console.WriteLine("");
+                foreach (Vehicle vehicle in Vehicles)
+                {
+                    Console.WriteLine("------- {0} -------", i++);
+                    Console.WriteLine("Véhicule : {0} {1}", vehicle.Brand, vehicle.Name);
+                    Console.WriteLine("Id : {0}", vehicle.Id);
+                    Console.WriteLine("");
+                }
+            } else
+            {
+                Console.WriteLine("Il n'y a pas de véhicule dans le garage pour l'instant");
             }
         }
 
         public void DisplayCars()
         {
+            bool isCarInTheGarage = false;
             int i = 0;
             Console.WriteLine("Voici la liste de toutes les voitures :");
-            foreach (Vehicle vehicle in vehicles)
+            if (Vehicles.Count != 0)
             {
-                if (vehicle is Car)
+                foreach (Vehicle vehicle in Vehicles)
                 {
-                    Console.WriteLine("------- {0} -------", i++);
-                    Console.WriteLine("Voiture : {0} {1}", vehicle.Brand, vehicle.Name);
-                    Console.WriteLine("Id : {0}", vehicle.Id);
-                    Console.WriteLine("");
+                    if (vehicle is Car)
+                    {
+                        Console.WriteLine("------- {0} -------", i++);
+                        Console.WriteLine("Voiture : {0} {1}", vehicle.Brand, vehicle.Name);
+                        Console.WriteLine("Id : {0}", vehicle.Id);
+                        Console.WriteLine("");
+                        isCarInTheGarage = true;
+                    }
                 }
+                if (!isCarInTheGarage)
+                {
+                    Console.WriteLine("Il n'y a pas de voiture dans le garage");
+                }
+            } else
+            {
+                Console.WriteLine("Il n'y a pas de véhicule dans le garage pour l'instant");
             }
         }
 
         public void DisplayMotorcycles()
         {
+            bool isMotoInTheGarge = false;
             int i = 0;
             Console.WriteLine("Voici la liste de toutes les motos :");
-            foreach (Vehicle vehicle in vehicles)
+            if (Vehicles.Count != 0)
             {
-                if (vehicle is Car)
+                foreach (Vehicle vehicle in Vehicles)
                 {
-                    Console.WriteLine("------- {0} -------", i++);
-                    Console.WriteLine("Moto : {0} {1}", vehicle.Brand, vehicle.Name);
-                    Console.WriteLine("Id : {0}", vehicle.Id);
-                    Console.WriteLine("");
+                    if (vehicle is Car)
+                    {
+                        Console.WriteLine("------- {0} -------", i++);
+                        Console.WriteLine("Moto : {0} {1}", vehicle.Brand, vehicle.Name);
+                        Console.WriteLine("Id : {0}", vehicle.Id);
+                        Console.WriteLine("");
+                        isMotoInTheGarge = true;
+                    }
                 }
+                if (!isMotoInTheGarge)
+                {
+                    Console.WriteLine("Il n'y a pas de moto dans le garage");
+                }
+            } else
+            {
+                Console.WriteLine("Il n'y a pas de véhicule dans le garage pour l'instant");
             }
         }
 
         public void DisplayTrucks()
         {
+            bool isTruckInTheGarage = false;
             int i = 0;
             Console.WriteLine("Voici la liste de tous les camions :");
-            foreach (Vehicle vehicle in vehicles)
+            if (Vehicles.Count != 0)
             {
-                if (vehicle is Car)
+                foreach (Vehicle vehicle in Vehicles)
                 {
-                    Console.WriteLine("------- {0} -------", i++);
-                    Console.WriteLine("Camion : {0} {1}", vehicle.Brand, vehicle.Name);
-                    Console.WriteLine("Id : {0}", vehicle.Id);
-                    Console.WriteLine("");
+                    if (vehicle is Car)
+                    {
+                        Console.WriteLine("------- {0} -------", i++);
+                        Console.WriteLine("Camion : {0} {1}", vehicle.Brand, vehicle.Name);
+                        Console.WriteLine("Id : {0}", vehicle.Id);
+                        Console.WriteLine("");
+                        isTruckInTheGarage = true;
+                    }
                 }
+                if (!isTruckInTheGarage)
+                {
+                    Console.WriteLine("Il n'y a pas de camion dans le garage");
+                }
+            } else
+            {
+                Console.WriteLine("Il n'y a pas de véhicule dans le garage pour l'instant");
             }
         }
 
